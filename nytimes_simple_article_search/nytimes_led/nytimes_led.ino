@@ -2,6 +2,7 @@ int redPin = A0;
 int greenPin = A2;
 int bluePin = A1;
 int incomingByte;
+int color;
 
 void setup(){
  
@@ -18,7 +19,10 @@ void loop(){
    incomingByte = Serial.read();
    
    if(incomingByte == 'H'){
-     setColor(255, 0, 0);
+     //setColor(color, 0, 0);
+     for(color = 0; color < 255; color += 1;){
+       setColor(color, 0, 0);
+     } 
    }
    
    if(incomingByte == 'L'){
