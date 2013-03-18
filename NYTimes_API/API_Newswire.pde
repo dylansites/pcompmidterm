@@ -1,4 +1,4 @@
-void getArticles(String apiKey, String source, String section, String timePeriod, String offset) {
+void getArticles(String apiKey, String source, String section, String timePeriod, int offset) {
 
   // base URL to Newswire API
   String api = "http://api.nytimes.com/svc/news/v3/content";
@@ -6,6 +6,7 @@ void getArticles(String apiKey, String source, String section, String timePeriod
   // build API URL query from specified parameters
   String query = api  + source + section + timePeriod + "?offset=" + offset + "&api-key=" + apiKey;
   println("Sending query to Newswire API: " + query);
+  
   /*
   Here are several examples of a complete URL:
    http://api.nytimes.com/svc/news/v3/content/all/all.xml
@@ -32,7 +33,7 @@ void getArticles(String apiKey, String source, String section, String timePeriod
      Note that the API only returns 15 results at a time. You may have to run multiple queries to return back more.
      */
     JSONArray results = nytData.getJSONArray("results");
-
+  
     // iterate through results JSONArray
     for (int i = 0; i < results.length(); i++) { // a JSONArray uses a function length(), NOT size() or length
 
@@ -105,6 +106,7 @@ void getArticles(String apiKey, String source, String section, String timePeriod
       println("Subjects: " + desFacets.length());
       println("Organizations: " + orgFacets.length());
     }
+    
   }
   catch (JSONException e) {  
     println (e.toString());
