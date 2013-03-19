@@ -18,7 +18,7 @@ int freqTwo;
 
 void setup() {
   println(Serial.list());
-  arduinoPort = new Serial(this, Serial.list()[0], 9600);
+  arduinoPort = new Serial(this, Serial.list()[1], 9600);
   size(500, 300);
 
   /*String[] words = {

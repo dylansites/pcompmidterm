@@ -95,7 +95,7 @@ int getArticles(String apiKey, String source, String section, String timePeriod,
      
       println("....................");
       String [] keyWords;
-      keyWords = match(_abstract, "schools");
+      keyWords = match(_abstract, "Brooklyn");
       if (keyWords != null){
         count = count + 1;
       } 
