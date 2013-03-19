@@ -4,6 +4,7 @@ int bluePin = A1;
 int incomingByte;
 int color;
 
+
 void setup(){
  
  Serial.begin(9600);
@@ -19,20 +20,35 @@ void loop(){
    incomingByte = Serial.read();
    
    if(incomingByte == 'H'){
-     //setColor(color, 0, 0);
-     for(color = 0; color < 255; color += 1;){
-       setColor(color, 0, 0);
-     } 
+       blinkLoop(); //if returns > 0, blink red
    }
    
    if(incomingByte == 'L'){
-     setColor(0, 0, 250);
+     setColor(0, 0, 0); //if returns = 0, off
    }
   }
+  else {setColor(0, 0, 0);} //defaults to off if no incoming bytes
 }
 
 void setColor(int red, int green, int blue){
-  analogWrite(redPin, red);
-  analogWrite(greenPin, green);
-  analogWrite(bluePin, blue);
+  //RGB values for anode LED -> +5v
+  analogWrite(redPin, 255-red);
+  analogWrite(greenPin, 255-green);
+  analogWrite(bluePin, 255-blue); 
+ 
+  //RGB values for cathode LED -> GRD
+  //analogWrite(redPin, red);
+  //analogWrite(greenPin, green);
+  //analogWrite(bluePin, blue); 
 }
+
+void blinkLoop(){
+ int i;
+ for (i=0; i<10; i++){
+  setColor(255, 0, 0); //red
+  delay(1000);
+  setColor(0, 0, 0);
+  delay(500);
+ }
+}
+
