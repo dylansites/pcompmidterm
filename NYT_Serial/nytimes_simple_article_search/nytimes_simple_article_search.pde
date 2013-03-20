@@ -26,13 +26,13 @@ int time;
 
 void setup() {
   println(Serial.list());
-  arduinoPort = new Serial(this, Serial.list()[0], 9600);
+  arduinoPort = new Serial(this, Serial.list()[1], 9600);
   size(500, 300);
 };
 
 
 void draw() {
-  //newAlert = getArticles(apiKey, source, section, timePeriod, offset);
+ // newAlert = getArticles(apiKey, source, section, timePeriod, offset);
   
   //captures ranked array of section totals, from least to greatest 
   topTrends = getMPArticles(mpapi, resourceType, mpsection, mptime, mpoffset, mpapikey);
@@ -45,15 +45,15 @@ void draw() {
       winners[0] = section[1];
     }
     if(i==5){
-      winners[1] = section [1];
+      winners[1] = section[1];
     }
     if(i==4){
-      winners[2] = section [1];
+      winners[2] = section[1];
     }
   }
      
   //newswire will run 4 times to get 100 articles and will then reset   
-  if(offset >= 100){
+/*  if(offset >= 100){
     offset = 0;
     alert = 0;
   }
@@ -62,7 +62,7 @@ void draw() {
   }
   
   //adds number of hits from last pull down
-  alert = alert + newAlert;
+//  alert = alert + newAlert;
   
   //tells arduino if there's been a hit on the keyword or not
   if(alert > 0){
@@ -70,9 +70,9 @@ void draw() {
    }
    else{
      arduinoPort.write('L');
-   }
+   }*/
    
-   //tells arduino what are the top sections
+  //tells arduino what are the top sections
    for(int i=0; i<winners.length; i++){
      if(i != 0){
        time = millis();
@@ -101,7 +101,7 @@ void draw() {
      }
    }
   
-  println("Returns: " + alert);
+ // println("Returns: " + alert);
   
   //delays loop for 20 seconds
   time = millis();

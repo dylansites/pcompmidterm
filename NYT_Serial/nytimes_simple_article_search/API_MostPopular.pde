@@ -1,5 +1,5 @@
 
-String [] getMPArticles(String mpapi, String resourceType, String mpsection, String mptime, int mpoffset, String mpapiKey) {
+String [] getMPArticles(String mpapi, String resourceType, String mpsection, String mptime, int mpoffset, String mpapikey) {
   //counters for each of the 7 sections were watching
   int worldcount = 0;
   int uscount = 0;

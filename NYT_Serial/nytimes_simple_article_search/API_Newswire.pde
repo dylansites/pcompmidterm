@@ -93,7 +93,7 @@ int getArticles(String apiKey, String source, String section, String timePeriod,
      
       println("....................");
       String [] keyWords;
-      keyWords = match(desFacets, "Same-Sex");
+      keyWords = match(desFacets, "War");
       if (keyWords != null){
         count = count + 1;
       } 
