@@ -67,7 +67,7 @@ int getArticles(String apiKey, String source, String section, String timePeriod,
       JSONArray media = new JSONArray();
       JSONArray geoFacets = new JSONArray();
       JSONArray perFacets = new JSONArray();
-      JSONArray desFacets = new JSONArray();
+      String desFacets = obj.getString("des_facet"); // made into a String so it can be searched with match()
       JSONArray orgFacets = new JSONArray();
 
       /*
@@ -83,23 +83,23 @@ int getArticles(String apiKey, String source, String section, String timePeriod,
       if (!obj.getString("per_facet").equals("")) {
         perFacets = obj.getJSONArray("per_facet"); // gets a related person facet, e.g. "OBAMA, BARACK"
       }
-      if (!obj.getString("des_facet").equals("")) {
+     /* if (!obj.getString("des_facet").equals("")) {
         desFacets = obj.getJSONArray("des_facet"); // gets the subjects facet as an array, e.g. [ "Elections", "Politics and Government" ]
-      }
+      }*/
       if (!obj.getString("org_facet").equals("")) {
         orgFacets = obj.getJSONArray("org_facet"); // gets the organization facet as an array, e.g. "Google Inc|GOOG|NASDAQ"
       }
       
-      // print article data
-      
      
       println("....................");
       String [] keyWords;
-      keyWords = match(_abstract, "Brooklyn");
+      keyWords = match(desFacets, "Same-Sex");
       if (keyWords != null){
         count = count + 1;
       } 
-      articleNumber = articleNumber + 1;
+      articleNumber = articleNumber + 1; //number of articles returned
+      
+      //print all article data
       println("Title: " + title);
       println("Sub-headline: " + subHeadline);
       println("Byline: " + byline);
@@ -112,22 +112,32 @@ int getArticles(String apiKey, String source, String section, String timePeriod,
       println("URL: " + url);
       println("Multimedia: " + media.length()); // note: in JSONArrays we use length() instead of size() or length.
       println("Locations: " + geoFacets.length());
-      println("People: " + perFacets.length());
+      println("People: " + perFacets);
       println("Subjects: " + desFacets);
       println("Organizations: " + orgFacets.length());
     }
   }
+  
   catch (JSONException e) {  
     println (e.toString());
   }
+  
   println("....................");
   println("Response:" + articleNumber);
-  return(count);
+  return count;
   
 }
 
 void delay(int time){
   int pause = 20000;
+  int m = millis();
+  while( m < time + pause){
+    m = millis();
+  }
+}
+
+void shortDelay(int time){
+  int pause = 10000;
   int m = millis();
   while( m < time + pause){
     m = millis();

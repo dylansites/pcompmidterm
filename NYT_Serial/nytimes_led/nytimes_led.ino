@@ -1,6 +1,6 @@
 int redPin = A0;
-int greenPin = A2;
-int bluePin = A1;
+int greenPin = A1;
+int bluePin = A2;
 int incomingByte;
 int color;
 
@@ -20,11 +20,26 @@ void loop(){
    
    if(incomingByte == 'H'){
      //setColor(color, 0, 0);
-       setColor(255, 0, 0);
+       setColor(255, 0, 0); //red for newswire
    }
    
-   if(incomingByte == 'L'){
-     setColor(0, 0, 0);
+   if(incomingByte == 'A'){
+     //setColor(color, 0, 0);
+       setColor(255, 0, 0); //red for US
+   }
+   
+   if(incomingByte == 'W'){
+     //setColor(color, 0, 0);
+       setColor(0, 0, 255); //blue for World
+   }
+   
+   if(incomingByte == 'I'){
+     //setColor(color, 0, 0);
+       setColor(255, 255, 0); //yellow for Science
+   }
+   
+   if(incomingByte == 'S'){
+     setColor(255, 255, 255);//white for Sports
    }
   }
 }
