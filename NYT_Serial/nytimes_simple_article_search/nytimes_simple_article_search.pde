@@ -62,9 +62,11 @@ void newsWire() {
   //tells arduino if there's been a hit on the keyword or not
   if(alert > 0){
     arduinoPort.write('H');
+      println("Sending an H to Arduino");
    }
    else{
      arduinoPort.write('L');
+       println("Sending an L to Arduino");
    }
    
   println("Returns: " + alert);
@@ -101,25 +103,31 @@ void mostPop() {
      }
      if(winners[i].equals("Sports")){
        arduinoPort.write('S');
+         println("Sending an S to Arduino");
      }
      if(winners[i].equals("Education")){
        arduinoPort.write('E');
+         println("Sending an E to Arduino");
      }
      if(winners[i].equals("Business")){
        arduinoPort.write('B');
+         println("Sending a B to Arduino");
      }
      if(winners[i].equals("Health")){
        arduinoPort.write('P');
+         println("Sending a P to Arduino");
      }
      if(winners[i].equals("World")){
        arduinoPort.write('W');
+         println("Sending a W to Arduino");
      }
      if(winners[i].equals("Science")){
        arduinoPort.write('I');
+         println("Sending an I to Arduino");
      }
      if(winners[i].equals("US")){
        arduinoPort.write('A');
+         println("Sending an A to Arduino");
      }
-   }
-  
+   } 
 };
