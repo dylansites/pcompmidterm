@@ -1,6 +1,7 @@
-int redPin = A0;
-int greenPin = A1;
-int bluePin = A2;
+const int redPin = A0;
+const int greenPin = A1;
+const int bluePin = A2;
+const int switchPin = 5;
 int incomingByte;
 int color;
 
@@ -10,13 +11,15 @@ void setup(){
  pinMode(redPin, OUTPUT);
  pinMode(greenPin, OUTPUT);
  pinMode(bluePin, OUTPUT);
- 
+ pinMode(switchPin, INPUT); 
+  
  setColor(0, 0, 0); //default to off
 
 }
 
 void loop(){
-
+  int switchVal = digitalRead(switchPin);
+  Serial.write(switchVal);
   
   if(Serial.available()>0){
    incomingByte = Serial.read();
@@ -34,11 +37,17 @@ void loop(){
      case 'S':
        setColor(0, 255, 255); //cyan for Sports
        break;
+     case 'E':
+       setColor(255, 0, 255); //purple for Education
+       break;
+     case 'B':  
+       setColor(255, 255, 255); //white for Business;
+       break;
      case 'P':
        setColor(255, 255, 0); //yellow for Health
        break;
      case 'H':
-       blinkLoop(); //if returns > 0, blink purple (newswire only)
+       blinkLoop(); //if returns > 0, blink red (newswire only)
        break;
      case 'L':
        setColor(0, 0, 0); //if returns = 0, off (newswire only)
@@ -56,15 +65,15 @@ void setColor(int red, int green, int blue){
   analogWrite(bluePin, 255-blue);
  
   //RGB values for cathode LED -> GRD
-  //analogWrite(redPin, red);
-  //analogWrite(greenPin, green);
-  //analogWrite(bluePin, blue); 
+//  analogWrite(redPin, red);
+//  analogWrite(greenPin, green);
+//  analogWrite(bluePin, blue); 
 }
 
 void blinkLoop(){
  int i;
  for (i=0; i<10; i++){
-  setColor(255, 0, 255); //purple
+  setColor(255, 0, 0); //red
   delay(1000);
   setColor(0, 0, 0);
   delay(500);
