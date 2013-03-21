@@ -97,10 +97,7 @@ void mostPop() {
   }
   //tells arduino what are the top sections
    for(int i=0; i<winners.length; i++){
-     if(i != 0){
-       time = millis();
-       delay(time);
-     }
+     //println(i); //print statement used for debugging
      if(winners[i].equals("Sports")){
        arduinoPort.write('S');
          println("Sending an S to Arduino");
@@ -128,6 +125,11 @@ void mostPop() {
      if(winners[i].equals("US")){
        arduinoPort.write('A');
          println("Sending an A to Arduino");
+     }
+     //println(i); //print statement used for debugging
+      if(i < winners.length){
+       time = millis();
+       delay(time);
      }
    } 
 };
