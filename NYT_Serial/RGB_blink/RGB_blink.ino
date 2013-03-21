@@ -12,15 +12,17 @@ void loop ()
   {
     setColor(255, 0, 0); //red
     delay(1000);
-    setColor(0, 255, 0); //green
-    delay(1000);
-    setColor(0, 0, 255); //blue
+    setColor(255, 30, 0); // orange
     delay(1000);
     setColor(255, 80, 0); //yellow
     delay(1000);
-    setColor(200, 0, 255); //purple
+    setColor(0, 255, 0); //green
     delay(1000);
-    setColor(0,255, 100); // aqua
+    setColor(0, 255, 30); // cyan
+    delay(1000);
+    setColor(0, 0, 255); //blue
+    delay(1000);
+    setColor(200, 0, 255); //purple
     delay(1000);
     setColor(255,100,100); //white
     delay(1000);
