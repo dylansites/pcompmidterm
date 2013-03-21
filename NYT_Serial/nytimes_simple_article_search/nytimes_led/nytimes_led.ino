@@ -1,6 +1,6 @@
-const int redPin = A0;
-const int greenPin = A1;
-const int bluePin = A2;
+const int redPin = 11;
+const int greenPin = 10;
+const int bluePin = 9;
 const int switchPin = 5;
 int incomingByte;
 int color;
@@ -35,16 +35,16 @@ void loop(){
        setColor(0, 255, 0); //green for Science
        break;
      case 'S':
-       setColor(0, 255, 255); //cyan for Sports
+       setColor(0, 255, 30); //cyan for Sports
        break;
      case 'E':
-       setColor(255, 0, 255); //purple for Education
+       setColor(200, 0, 255); //purple for Education
        break;
      case 'B':  
-       setColor(255, 255, 255); //white for Business;
+       setColor(255, 30, 0); //orange for Business;
        break;
      case 'P':
-       setColor(255, 255, 0); //yellow for Health
+       setColor(255, 80, 0); //yellow for Health
        break;
      case 'H':
        blinkLoop(); //if returns > 0, blink red (newswire only)
