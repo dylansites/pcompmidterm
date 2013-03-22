@@ -93,7 +93,7 @@ void newsWire() {
      shortDelay(time);
      if(arduinoPort.available() > 0) {
      endByte = arduinoPort.read();  //checks to see if value from Arduino has changed
-     println("MP at end:" + endByte); //prints out new value for debugging
+     println("NW at end:" + endByte); //prints out new value for debugging
        if (endByte == 0) {
          println("You should have broken!"); 
          break;   //if value has changed to 0 i.e. the button is no longer pressed, this breaks loop and ends function
