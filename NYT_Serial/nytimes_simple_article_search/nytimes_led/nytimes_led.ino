@@ -35,13 +35,13 @@ void loop(){
        setColor(0, 255, 0); //green for Science
        break;
      case 'S':
-       setColor(0, 255, 30); //cyan for Sports
+       setColor(0, 255, 150); //cyan for Sports
        break;
      case 'E':
        setColor(200, 0, 255); //purple for Education
        break;
      case 'B':  
-       setColor(255, 30, 0); //orange for Business;
+       setColor(255, 100, 100 ); //white for Business;
        break;
      case 'P':
        setColor(255, 80, 0); //yellow for Health
@@ -60,14 +60,14 @@ void loop(){
 
 void setColor(int red, int green, int blue){
   //RGB values for anode LED -> +5v
-  analogWrite(redPin, 255-red);
-  analogWrite(greenPin, 255-green);
-  analogWrite(bluePin, 255-blue);
+//  analogWrite(redPin, 255-red);
+//  analogWrite(greenPin, 255-green);
+//  analogWrite(bluePin, 255-blue);
  
   //RGB values for cathode LED -> GRD
-//  analogWrite(redPin, red);
-//  analogWrite(greenPin, green);
-//  analogWrite(bluePin, blue); 
+  analogWrite(redPin, red);
+  analogWrite(greenPin, green);
+  analogWrite(bluePin, blue); 
 }
 
 void blinkLoop(){
