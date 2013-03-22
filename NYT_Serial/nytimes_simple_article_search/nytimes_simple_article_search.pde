@@ -23,24 +23,37 @@ String [] topTrends;
 String [] winners = new String[3];
 
 int time;
-int inByte;
+int inByte = 3;
 
 void setup() {
   println(Serial.list());
   arduinoPort = new Serial(this, Serial.list()[0], 9600);
+  if(arduinoPort.available() > 0) {
+    arduinoPort.clear();//clears arduino port initially to prepare for first value of a single 1 or 0
+  }
   size(500, 300);
 };
 
 
 void draw() {
-  while (arduinoPort.available() > 0) {
+  if (arduinoPort.available() > 0) {
     inByte = arduinoPort.read();
-    println(inByte);
+    println("Reset:" + inByte); //debugging print; verifies that draw is looping properly(it wasn't at one point)
   }
   if (inByte == 1) {
-   newsWire();
+    println("NW before:" + inByte); //debugging print: verifies that the value of inByte is 1
+    newsWire();
+    arduinoPort.clear(); //clears port so that when the loop comes back around, it needs a new 1 to continue
+    inByte = arduinoPort.read(); //makes sure inByte is holding a new 0 or 1 and not just the old value or nothing at all(may be extraneous)
+    return; //makes sure if statement isn't looping for some reason (it was at one point)
   }
-  else { mostPop();}
+  if (inByte == 0){
+    println("MP before:" + inByte); //debugging print: verifies that the value of inByte is 0
+    mostPop();
+    arduinoPort.clear(); //clears port to ready for new 0 or 1 after function runs
+    inByte = arduinoPort.read(); //replacement byte so that inByte is not empty or holding an old value (may be extraneous)
+    return; //makes sure if statement isn't looping (it was at one point)
+  }
   
 };
 
@@ -71,9 +84,23 @@ void newsWire() {
    
   println("Returns: " + alert);
   
-  //delays loop for 20 seconds
-  time = millis();
-  delay(time);
+  int endByte; //new value to hold 0 that could break the function
+  
+  //modified delay that checks for a value from Arduino every 2 seconds
+  //after 20 seconds, if Arduino is still sending 1 if keeps going
+  for(int t=0; t<11; t++){
+     time = millis();
+     shortDelay(time);
+     if(arduinoPort.available() > 0) {
+     endByte = arduinoPort.read();  //checks to see if value from Arduino has changed
+     println("MP at end:" + endByte); //prints out new value for debugging
+       if (endByte == 0) {
+         println("You should have broken!"); 
+         break;   //if value has changed to 0 i.e. the button is no longer pressed, this breaks loop and ends function
+       }
+     }
+   arduinoPort.clear(); //clears port after getting another 0, so it can search for a 1 
+   }
 };
 
 void mostPop() {
@@ -100,7 +127,7 @@ void mostPop() {
      //println(i); //print statement used for debugging
      if(winners[i].equals("Sports")){
        arduinoPort.write('S');
-         println("Sending an S to Arduino");
+        println("Sending an S to Arduino");
      }
      if(winners[i].equals("Education")){
        arduinoPort.write('E');
@@ -127,9 +154,33 @@ void mostPop() {
          println("Sending an A to Arduino");
      }
      //println(i); //print statement used for debugging
-      if(i < winners.length){
+     
+     arduinoPort.clear();//clears arduino Port of extra 0s and 1s
+     
+     //modified delay that checks for a value from Arduino every 2 seconds
+     //after 20 seconds, if Arduino is still sending 0 if keeps going
+     int endByte;
+     for(int t=0; t<11; t++){
        time = millis();
-       delay(time);
+       shortDelay(time);
+       if(arduinoPort.available() > 0) {
+       endByte = arduinoPort.read();  //checks to see if value from Arduino has changed
+       println("MP at end:" + endByte); //prints out new value for debugging
+         if (endByte == 1) {
+           println("You should have broken!"); 
+           break;   //if value has changed to 1 i.e. the button is now pressed, this delay for loop breaks
+         }
+       }
+     arduinoPort.clear(); //clears port after getting another 0, so it can search for a 1 
      }
-   } 
+     //if the delay for loop breaks, this keeps the larger for loop from going onto the next section
+     //it breaks the larger for loop and ends the function
+     if(arduinoPort.available() > 0) {
+       int breakByte = arduinoPort.read();
+       if (breakByte == 1){
+         println("BREAK");
+         break;
+       }
+     }
+   }
 };
