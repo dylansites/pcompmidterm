@@ -1,6 +1,6 @@
-int redPin = 3;
-int greenPin = 5;
-int bluePin = 6;
+int redPin = 11;
+int greenPin = 10;
+int bluePin = 9;
 
 void setup(){
   pinMode(redPin, OUTPUT);
@@ -18,7 +18,7 @@ void loop ()
     delay(1000);
     setColor(0, 255, 0); //green
     delay(1000);
-    setColor(0, 255, 30); // cyan
+    setColor(0, 255, 150); // cyan
     delay(1000);
     setColor(0, 0, 255); //blue
     delay(1000);
