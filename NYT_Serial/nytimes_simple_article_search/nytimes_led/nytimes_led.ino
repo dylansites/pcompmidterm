@@ -77,6 +77,10 @@ void blinkLoop(){
   delay(1000);
   setColor(0, 0, 0);
   delay(500);
+  int newSwitchVal = digitalRead(switchPin);
+  if(newSwitchVal == LOW){
+    break;
+  }
  }
 }
 
