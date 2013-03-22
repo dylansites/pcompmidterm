@@ -41,7 +41,7 @@ void loop(){
        setColor(200, 0, 255); //purple for Education
        break;
      case 'B':  
-       setColor(255, 100, 100 ); //white for Business;
+       setColor(255, 30, 0); // orange for Business;
        break;
      case 'P':
        setColor(255, 80, 0); //yellow for Health
@@ -50,7 +50,7 @@ void loop(){
        blinkLoop(); //if returns > 0, blink red (newswire only)
        break;
      case 'L':
-       setColor(0, 0, 0); //if returns = 0, off (newswire only)
+       setColor(255, 100, 100); //if returns = 0, white (newswire only)
        break;
    }
 
