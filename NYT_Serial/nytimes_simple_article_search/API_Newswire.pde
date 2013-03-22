@@ -137,7 +137,7 @@ void delay(int time){
 }
 
 void shortDelay(int time){
-  int pause = 10000;
+  int pause = 2000;
   int m = millis();
   while( m < time + pause){
     m = millis();
