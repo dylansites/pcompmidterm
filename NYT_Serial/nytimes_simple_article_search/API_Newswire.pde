@@ -128,20 +128,3 @@ int getArticles(String apiKey, String source, String section, String timePeriod,
   
 }
 
-void delay(int time){
-  int pause = 20000;
-  int m = millis();
-  while( m < time + pause){
-    m = millis();
-  }
-}
-
-void shortDelay(int time){
-  int pause = 2000;
-  int m = millis();
-  while( m < time + pause){
-    m = millis();
-  }
-}
-
-
