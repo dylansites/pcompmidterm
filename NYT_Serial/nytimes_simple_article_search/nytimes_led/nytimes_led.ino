@@ -52,6 +52,8 @@ void loop(){
      case 'L':
        setColor(255, 100, 100); //if returns = 0, white (newswire only)
        break;
+     case 'X':
+       break;
    }
 
   } 
