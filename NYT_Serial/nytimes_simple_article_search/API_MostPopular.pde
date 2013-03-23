@@ -29,9 +29,9 @@ String [] getMPArticles(String mpapi, String resourceType, String mpsection, Str
 
       String title = obj.getString("title"); // gets the article title
       /* String subHeadline = obj.getString("subheadline"); // gets the subheader for an article
-       String byline = obj.getString("byline"); // gets the article byline
+       String byline = obj.getString("byline"); // gets the article byline*/
        String _abstract = obj.getString("abstract"); // gets the article abstract
-       String publishedDate = obj.getString("published_date");
+       /*String publishedDate = obj.getString("published_date");
        String itemType = obj.getString("item_type"); // gets the type of an article, e.g. "Blog"
        String subSection = obj.getString("subsection"); // gets subsection, e.g. "Politics"*/
       String mainSection = obj.getString("section"); // gets main section, e.g. "U.S."
@@ -70,6 +70,7 @@ String [] getMPArticles(String mpapi, String resourceType, String mpsection, Str
       }
       println("Title: " + title);
       println("Section: " + mainSection);
+      println("Abstract: " + _abstract);
      
     }
      println("The amount of articles from the World section is: " + worldcount);
