@@ -50,10 +50,10 @@ void loop(){
        setColor(255, 100, 100); //white for Human Rights
        break;
      case 'H':
-       blinkLoop(); //if returns > 0, blink red (newswire only)
+       setColor(255, 0, 0); //keyword found; solid red.
        break;
      case 'L':
-       setColor(0, 0, 0); //no color
+       blinkLoop(); //if returns > 0, blink white (newswire only)
        break;
      case 'X':
        break;
@@ -77,9 +77,9 @@ void setColor(int red, int green, int blue){
 
 void blinkLoop(){
  int i;
- for (i=0; i<10; i++){
-  setColor(255, 0, 0); //red
-  delay(1000);
+ for (i=0; i<20; i++){
+  setColor(255, 100, 100); //red
+  delay(500);
   setColor(0, 0, 0);
   delay(500);
   int newSwitchVal = digitalRead(switchPin);
