@@ -26,31 +26,34 @@ void loop(){
    
    switch(incomingByte){
      case 'A':
-       setColor(255, 0, 0); //red for US
+       setColor(255, 0, 0); //red for Military
        break;
      case 'W':
-       setColor(0, 0, 255); //blue for World
+       setColor(0, 0, 255); //blue for Politics
        break;
      case 'I':   
-       setColor(0, 255, 0); //green for Science
+       setColor(0, 255, 0); //green for Money
        break;
      case 'S':
-       setColor(0, 255, 150); //cyan for Sports
+       setColor(0, 255, 150); //cyan for Science
        break;
      case 'E':
-       setColor(200, 0, 255); //purple for Education
+       setColor(200, 0, 255); //purple for Mourning
        break;
      case 'B':  
-       setColor(255, 30, 0); // orange for Business;
+       setColor(255, 30, 0); // orange for Health
        break;
      case 'P':
-       setColor(255, 80, 0); //yellow for Health
+       setColor(255, 80, 0); //yellow for Crime
+       break;
+     case 'R':
+       setColor(255, 100, 100); //white for Human Rights
        break;
      case 'H':
        blinkLoop(); //if returns > 0, blink red (newswire only)
        break;
      case 'L':
-       setColor(255, 100, 100); //if returns = 0, white (newswire only)
+       setColor(0, 0, 0); //no color
        break;
      case 'X':
        break;
