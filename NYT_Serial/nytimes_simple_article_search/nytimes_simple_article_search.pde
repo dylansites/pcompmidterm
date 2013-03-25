@@ -109,20 +109,6 @@ void mostPop() {
   topTrends = getMPArticles(mpapi, resourceType, mpsection, mptime, mpoffset, mpapikey);
   
   //gets last 3 array values, which have the 3 highest section totals
-  for( int i=7; i >4; i--){
-    String [] section = split(topTrends[i], ":");
-    println(section[1]);
-    if(i==7){
-      winners[0] = section[1];
-    }
-    if(i==5){
-      winners[1] = section[1];
-    }
-    if(i==4){
-      winners[2] = section[1];
-    }
-  }
-  //tells arduino what are the top sections
    for( int i=7; i >4; i--){
     String [] section = split(topTrends[i], ":");
     println(section[1]);
