@@ -70,7 +70,7 @@ void newsWire() {
   }
   
   //adds number of hits from last pull down
-  alert = alert + newAlert;
+  alert = newAlert;
   
   //tells arduino if there's been a hit on the keyword or not
   if(alert > 0){
@@ -109,10 +109,10 @@ void mostPop() {
   topTrends = getMPArticles(mpapi, resourceType, mpsection, mptime, mpoffset, mpapikey);
   
   //gets last 3 array values, which have the 3 highest section totals
-  for( int i=6; i >3; i--){
+  for( int i=7; i >4; i--){
     String [] section = split(topTrends[i], ":");
     println(section[1]);
-    if(i==6){
+    if(i==7){
       winners[0] = section[1];
     }
     if(i==5){
@@ -123,41 +123,59 @@ void mostPop() {
     }
   }
   //tells arduino what are the top sections
+   for( int i=7; i >4; i--){
+    String [] section = split(topTrends[i], ":");
+    println(section[1]);
+    if(i==7){
+      winners[0] = section[1];
+    }
+    if(i==6){
+      winners[1] = section[1];
+    }
+    if(i==5){
+      winners[2] = section[1];
+    }
+  }
+  //tells arduino what are the top sections
    for(int i=0; i<winners.length; i++){
      //println(i); //print statement used for debugging
      if(i == 0){
        arduinoPort.write('X');//becomes the unexecuted first value; fixes error
-        println("Sending an X to Arduino");
-        time = millis();
-        delay(time);
+       println("Sending an X to Arduino");
+       time = millis();
+       delay(time);
      }
-     if(winners[i].equals("Sports")){
+     if(winners[i].equals("Science")){
        arduinoPort.write('S');
         println("Sending an S to Arduino");
      }
-     if(winners[i].equals("Education")){
-       arduinoPort.write('E');
-         println("Sending an E to Arduino");
+     if(winners[i].equals("Crime")){
+       arduinoPort.write('P');
+         println("Sending an P to Arduino");
      }
-     if(winners[i].equals("Business")){
+     if(winners[i].equals("Mourning")){
+       arduinoPort.write('E');
+         println("Sending a E to Arduino");
+     }
+     if(winners[i].equals("Health")){
        arduinoPort.write('B');
          println("Sending a B to Arduino");
      }
-     if(winners[i].equals("Health")){
-       arduinoPort.write('P');
-         println("Sending a P to Arduino");
-     }
-     if(winners[i].equals("World")){
+     if(winners[i].equals("Politics")){
        arduinoPort.write('W');
          println("Sending a W to Arduino");
      }
-     if(winners[i].equals("Science")){
+     if(winners[i].equals("Money")){
        arduinoPort.write('I');
          println("Sending an I to Arduino");
      }
-     if(winners[i].equals("US")){
+     if(winners[i].equals("Military")){
        arduinoPort.write('A');
          println("Sending an A to Arduino");
+     }
+     if(winners[i].equals("Human Rights")){
+       arduinoPort.write('R');
+         println("Sending an R to Arduino");
      }
      //println(i); //print statement used for debugging
      
