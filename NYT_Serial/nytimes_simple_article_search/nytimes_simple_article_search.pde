@@ -59,6 +59,17 @@ void draw() {
 
 void newsWire() {
   newAlert = getArticles(apiKey, source, section, timePeriod, offset);
+  
+  if(offset == 0){
+    arduinoPort.write('X');//becomes the unexecuted first value; fixes error
+    println("Sending an X to Arduino");
+    time = millis();
+    delay(time);
+    arduinoPort.write('L'); //intial blinking
+    println("Sending an L to Arduino");
+    time = millis();
+    delay(time);
+  }
      
   //newswire will run 4 times to get 100 articles and will then reset   
   if(offset >= 100){
@@ -75,11 +86,11 @@ void newsWire() {
   //tells arduino if there's been a hit on the keyword or not
   if(alert > 0){
     arduinoPort.write('H');
-      println("Sending an H to Arduino");
+    println("Sending an H to Arduino");
    }
    else{
      arduinoPort.write('L');
-       println("Sending an L to Arduino");
+     println("Sending an L to Arduino");
    }
    
   println("Returns: " + alert);
@@ -123,6 +134,7 @@ void mostPop() {
     }
   }
   //tells arduino what are the top sections
+  for(int t=0; t<5; t++){
    for(int i=0; i<winners.length; i++){
      //println(i); //print statement used for debugging
      if(i == 0){
@@ -170,25 +182,26 @@ void mostPop() {
      //modified delay that checks for a value from Arduino every 2 seconds
      //after 20 seconds, if Arduino is still sending 0 if keeps going
      int endByte;
-     for(int t=0; t<11; t++){
+     //for(int t=0; t<11; t++){
        time = millis();
        shortDelay(time);
        if(arduinoPort.available() > 0) {
        endByte = arduinoPort.read();  //checks to see if value from Arduino has changed
        println("MP at end:" + endByte); //prints out new value for debugging
          if (endByte == 1) {
-           println("You should have broken!"); 
+           println("first break"); 
            break;   //if value has changed to 1 i.e. the button is now pressed, this delay for loop breaks
          }
        }
      arduinoPort.clear(); //clears port after getting another 0, so it can search for a 1 
-     }
+    // }
      //if the delay for loop breaks, this keeps the larger for loop from going onto the next section
      //it breaks the larger for loop and ends the function
+     }
      if(arduinoPort.available() > 0) {
        int breakByte = arduinoPort.read();
        if (breakByte == 1){
-         println("BREAK");
+         println("second break");
          break;
        }
      }
