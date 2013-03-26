@@ -1,7 +1,7 @@
 const int redPin = 11;
 const int greenPin = 10;
 const int bluePin = 9;
-const int switchPin = 5;
+const int switchPin = A0;
 int incomingByte;
 int color;
 
@@ -18,7 +18,8 @@ void setup(){
 }
 
 void loop(){
-  int switchVal = digitalRead(switchPin);
+  int switchVal = analogRead(switchPin);
+  switchVal = map(switchVal, 0, 1023, 0, 255);
   Serial.write(switchVal);
   
   if(Serial.available()>0){
@@ -55,6 +56,9 @@ void loop(){
      case 'L':
        blinkLoop(); //if returns > 0, blink white (newswire only)
        break;
+     case 'Z':
+       setColor(0, 0, 0); //if returns  0, nothing
+       break;
      case 'X':
        break;
    }
@@ -82,8 +86,9 @@ void blinkLoop(){
   delay(500);
   setColor(0, 0, 0);
   delay(500);
-  int newSwitchVal = digitalRead(switchPin);
-  if(newSwitchVal == LOW){
+  int newSwitchVal = analogRead(switchPin);
+  newSwitchVal = map(newSwitchVal, 0, 1023, 0, 255);
+  if(newSwitchVal <= 140){
     break;
   }
  }
