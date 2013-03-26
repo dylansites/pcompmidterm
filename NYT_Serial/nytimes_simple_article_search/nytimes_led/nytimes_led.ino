@@ -89,6 +89,9 @@ void blinkLoop(){
     }
     int newSwitchVal = analogRead(switchPin);
     newSwitchVal = map(newSwitchVal, 0, 1023, 0, 255);
+    if(newSwitchVal <= 140){
+      return;
+    }
     for (i=255; i >= 0; i--){
       setColor(i, i, i); //red
       delay(10);
