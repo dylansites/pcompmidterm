@@ -116,7 +116,7 @@ void newsWire() {
         endByte = arduinoPort.read();  //checks to see if value from Arduino has changed
         println("NW at end:" + endByte); //prints out new value for debugging
         if (endByte <= 140) {
-          println("You should have broken!"); 
+          println("first break"); 
           break;   //if value has changed to 0 i.e. the button is no longer pressed, this breaks loop and ends function
         }
       }
