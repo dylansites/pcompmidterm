@@ -124,7 +124,7 @@ void newsWire() {
     }
     if (arduinoPort.available() > 0) {
       int breakByte = arduinoPort.read();
-      if (breakByte >= 150 || breakByte == 0) {
+      if (breakByte <= 140) {
         println("second break");
         break;
       }
