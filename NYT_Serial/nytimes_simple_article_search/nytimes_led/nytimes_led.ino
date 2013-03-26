@@ -79,34 +79,35 @@ void setColor(int red, int green, int blue){
   analogWrite(bluePin, blue); 
 }
 
-void blinkLoop(){
+void blinkLoop(){//pulses white
   int i;
   int t;
   for(t=0; t<3; t++){
     for (i=0; i<= 255; i++){
-      setColor(i, i, i); //red
+      setColor(i, i, i); 
       delay(10);
     }
     int newSwitchVal = analogRead(switchPin);
     newSwitchVal = map(newSwitchVal, 0, 1023, 0, 255);
     if(newSwitchVal <= 140){
-      return;
+      break;
     }
     for (i=255; i >= 0; i--){
-      setColor(i, i, i); //red
+      setColor(i, i, i);
       delay(10);
     }
     newSwitchVal = analogRead(switchPin);
     newSwitchVal = map(newSwitchVal, 0, 1023, 0, 255);
     if(newSwitchVal <= 140){
-      return;
+      break;
     }
   }
+  setColor(255, 255, 255);
 }
 
 void alertLoop(){
   int i;
-  for(i=0; i<10; i++){
+  for(i=0; i<20; i++){
     setColor(255, 0, 0);
     delay(100);
     setColor(0, 0, 0);
@@ -117,6 +118,7 @@ void alertLoop(){
   if(newSwitchVal <= 140){
     return;
   }
+  setColor(255, 0, 0);
 }
 
 
