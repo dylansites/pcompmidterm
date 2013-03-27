@@ -54,7 +54,10 @@ void loop(){
       alertLoop(); //keyword found; red alert blink.
       break;
     case 'L':
-      blinkLoop(); //if returns > 0, blink white (newswire only)
+      whiteLoop(); //searching, pulses white (newswire only 1st)
+      break;
+    case 'G':
+      purpleLoop(); //searching, pulses purple (newswire only 2nd)
       break;
     case 'Z':
       setColor(0, 0, 0); //if returns  0, nothing
@@ -79,47 +82,74 @@ void setColor(int red, int green, int blue){
   analogWrite(bluePin, blue); 
 }
 
-void blinkLoop(){//pulses white
+void whiteLoop(){//pulses white
   int i;
   int t;
   for(t=0; t<3; t++){
-    for (i=0; i<= 255; i++){
+    for (i=0; i<= 200; i++){
       setColor(i, i, i); 
       delay(10);
     }
     int newSwitchVal = analogRead(switchPin);
     newSwitchVal = map(newSwitchVal, 0, 1023, 0, 255);
-    if(newSwitchVal <= 140){
+    if(newSwitchVal < 200){
       break;
     }
-    for (i=255; i >= 0; i--){
+    for (i=200; i >= 0; i--){
       setColor(i, i, i);
       delay(10);
     }
     newSwitchVal = analogRead(switchPin);
     newSwitchVal = map(newSwitchVal, 0, 1023, 0, 255);
-    if(newSwitchVal <= 140){
+    if(newSwitchVal < 200){
       break;
     }
   }
   setColor(255, 255, 255);
 }
 
+void purpleLoop(){//pulses purple
+  int i;
+  int t;
+  for(t=0; t<3; t++){
+    for (i=0; i<= 255; i++){
+      setColor(i, 0, i); 
+      delay(10);
+    }
+    int newSwitchVal = analogRead(switchPin);
+    newSwitchVal = map(newSwitchVal, 0, 1023, 0, 255);
+    if(newSwitchVal < 130 || newSwitchVal > 200){
+      break;
+    }
+    for (i=255; i >= 0; i--){
+      setColor(i, 0, i);
+      delay(10);
+    }
+    newSwitchVal = analogRead(switchPin);
+    newSwitchVal = map(newSwitchVal, 0, 1023, 0, 255);
+    if(newSwitchVal < 130 || newSwitchVal > 200){
+      break;
+    }
+  }
+  setColor(200, 0, 200);
+}
+
 void alertLoop(){
   int i;
-  for(i=0; i<20; i++){
+  for(i=0; i<30; i++){
     setColor(255, 0, 0);
     delay(100);
     setColor(0, 0, 0);
     delay(100);
-  }
-  int newSwitchVal = analogRead(switchPin);
-  newSwitchVal = map(newSwitchVal, 0, 1023, 0, 255);
-  if(newSwitchVal <= 140){
-    return;
+    int newSwitchVal = analogRead(switchPin);
+    newSwitchVal = map(newSwitchVal, 0, 1023, 0, 255);
+    if(newSwitchVal <= 140){
+      break;
+    }
   }
   setColor(255, 0, 0);
 }
+
 
 
 
