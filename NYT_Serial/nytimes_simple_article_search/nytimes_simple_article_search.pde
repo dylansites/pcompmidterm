@@ -8,6 +8,8 @@ String source = "/nyt"; // possible values are: "all", "nyt", "iht" [intl. heral
 String section = "/all"; 
 String timePeriod = "/all";
 int offset = 0;
+String searchWord = "Same-Sex Marriage";
+int version = 1;
 
 //variables for most popular
 String mpapikey = "98814e026d926aa330b2b01db28d3376:14:67453798";
@@ -41,21 +43,34 @@ void draw() {
     inByte = arduinoPort.read();
     println("Reset:" + inByte); //debugging print; verifies that draw is looping properly(it wasn't at one point)
 
-    if (inByte >= 150) {
+    if (inByte >= 200) {
+      //second keyword
+      searchWord = "Same-Sex Marriage";
+      version = 2;
       println("NW before:" + inByte); //debugging print: verifies that the value of inByte is 1
-      newsWire();
+      newsWire(200, 400);
       arduinoPort.clear(); //clears port so that when the loop comes back around, it needs a new 1 to continue
       inByte = arduinoPort.read(); //makes sure inByte is holding a new 0 or 1 and not just the old value or nothing at all(may be extraneous)
       return; //makes sure if statement isn't looping for some reason (it was at one point)
     }
-    if (inByte <=140 && inByte != 0 ) {
+    if (inByte >= 130 && inByte < 200) {
+      //first keyword
+      searchWord = "War";
+      version = 1;
+      println("NW before:" + inByte); //debugging print: verifies that the value of inByte is 1
+      newsWire(130, 200);
+      arduinoPort.clear(); //clears port so that when the loop comes back around, it needs a new 1 to continue
+      inByte = arduinoPort.read(); //makes sure inByte is holding a new 0 or 1 and not just the old value or nothing at all(may be extraneous)
+      return; //makes sure if statement isn't looping for some reason (it was at one point)
+    }
+    if (inByte <=120 && inByte > 35 ) {
       println("MP before:" + inByte); //debugging print: verifies that the value of inByte is 0
       mostPop();
       arduinoPort.clear(); //clears port to ready for new 0 or 1 after function runs
       inByte = arduinoPort.read(); //replacement byte so that inByte is not empty or holding an old value (may be extraneous)
       return; //makes sure if statement isn't looping (it was at one point)
     }
-    if (inByte == 0 ) {
+    if (inByte <= 30 ) {
       arduinoPort.write('Z');
       time = millis();
       secDelay(time);
@@ -65,14 +80,20 @@ void draw() {
   }
 };
 
-void newsWire() {
+void newsWire(int a, int b) {
   offset = 0;
   arduinoPort.write('X');//becomes the unexecuted first value; fixes error
   println("Sending an X to Arduino");
   time = millis();
   delay(time);
-  arduinoPort.write('L'); //intial blinking
-  println("Sending an L to Arduino");
+  if (version == 2){
+    arduinoPort.write('L'); //intial blinking
+    println("Sending an L to Arduino");
+  }
+  if (version == 1){
+    arduinoPort.write('G');
+    println("Sending an G to Arduino");
+  }
   time = millis();
   delay(time);
   // if (offset == 0) {
@@ -99,8 +120,14 @@ void newsWire() {
       println("Sending an H to Arduino");
     }
     else {
-      arduinoPort.write('L');
-      println("Sending an L to Arduino");
+      if(version == 2){
+        arduinoPort.write('L');
+        println("Sending an L to Arduino");
+      }
+      if(version == 1){
+        arduinoPort.write('G');
+        println("Sending an G to Arduino");
+      }
     }
 
     println("Returns: " + alert);
@@ -115,7 +142,7 @@ void newsWire() {
       if (arduinoPort.available() > 0) {
         endByte = arduinoPort.read();  //checks to see if value from Arduino has changed
         println("NW at end:" + endByte); //prints out new value for debugging
-        if (endByte <= 140) {
+        if (endByte < a || endByte > b ) {
           println("first break"); 
           break;   //if value has changed to 0 i.e. the button is no longer pressed, this breaks loop and ends function
         }
@@ -124,7 +151,7 @@ void newsWire() {
     }
     if (arduinoPort.available() > 0) {
       int breakByte = arduinoPort.read();
-      if (breakByte <= 140) {
+      if (breakByte < a || breakByte > b) {
         println("second break");
         break;
       }
@@ -207,7 +234,7 @@ void mostPop() {
       if (arduinoPort.available() > 0) {
         endByte = arduinoPort.read();  //checks to see if value from Arduino has changed
         println("MP at end:" + endByte); //prints out new value for debugging
-        if (endByte >= 150 || endByte == 0) {
+        if (endByte > 120 || endByte < 35) {
           println("first break"); 
           break;   //if value has changed to 1 i.e. the button is now pressed, this delay for loop breaks
         }
@@ -219,7 +246,7 @@ void mostPop() {
     }
     if (arduinoPort.available() > 0) {
       int breakByte = arduinoPort.read();
-      if (breakByte >= 150 || breakByte == 0) {
+      if (breakByte > 120 || breakByte < 35) {
         println("second break");
         break;
       }
