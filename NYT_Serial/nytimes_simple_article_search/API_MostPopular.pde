@@ -9,7 +9,7 @@ String [] getMPArticles(String mpapi, String resourceType, String mpsection, Str
   int healthcount = 0;
   int humanrightscount = 0;
   int mourningcount = 0;
-  
+
   //String mpapi = "http://api.nytimes.com/svc/mostpopular/v2";
   String mpquery = (mpapi + resourceType + mpsection + mptime + "?&offset=" + mpoffset + "&api-key=" + mpapikey);
   println("Sending query to Most Popular API: " + mpquery);
@@ -21,8 +21,9 @@ String [] getMPArticles(String mpapi, String resourceType, String mpsection, Str
 
     JSONArray results = nytData.getJSONArray("results");//makes an array outof everything that comes after "results"
 
-    //goes through each article for parsing
+    //iterate through results JSONArray, then goes through each article for parsing
     for (int i = 0; i < results.length(); i++) { 
+      // get JSON object for each result
       JSONObject obj = (JSONObject) results.get(i);
 
 
@@ -31,22 +32,22 @@ String [] getMPArticles(String mpapi, String resourceType, String mpsection, Str
       String title = obj.getString("title"); // gets the article title
       /* String subHeadline = obj.getString("subheadline"); // gets the subheader for an article
        String byline = obj.getString("byline"); // gets the article byline*/
-       String _abstract = obj.getString("abstract"); // gets the article abstract
-       /*String publishedDate = obj.getString("published_date");
+      String _abstract = obj.getString("abstract"); // gets the article abstract
+      /*String publishedDate = obj.getString("published_date");
        String itemType = obj.getString("item_type"); // gets the type of an article, e.g. "Blog"
        String subSection = obj.getString("subsection"); // gets subsection, e.g. "Politics"*/
       String mainSection = obj.getString("section"); // gets main section, e.g. "U.S."
       String desFacets = obj.getString("des_facet"); // made into a String so it can be searched with match()
       String geoFacets = obj.getString("geo_facet"); // made into a String so it can be searched with match()
-      
+
       //looking for keywords in the section category
       String [] keywords;
       keywords = match(mainSection, "Science");
-      if(keywords != null){
+      if (keywords != null) {
         sciencecount += 1;
       }
       keywords = match(mainSection, "Technology");
-     if(keywords != null){
+      if (keywords != null) {
         sciencecount += 1;
       }
       keywords = match(desFacets, "POLITICS AND GOVERNMENT");
@@ -54,7 +55,7 @@ String [] getMPArticles(String mpapi, String resourceType, String mpsection, Str
         politicscount += 1;
       }
       keywords = match(desFacets, "TAX SHELTER");
-      if (keywords != null){                 
+      if (keywords != null) {                 
         moneycount += 1;
       }
       keywords = match(desFacets, "BANKING");
@@ -125,20 +126,19 @@ String [] getMPArticles(String mpapi, String resourceType, String mpsection, Str
       if (keywords != null) {
         healthcount += 1;
       }
-      
+
       println("Title: " + title);
       println("Section: " + mainSection);
       println("Abstract: " + _abstract);
       println("Subjects: " + desFacets);
-     
     }
-     println("The amount of articles about the Military concerns is: " + militarycount);
-     println("The amount of articles from the Politics section is: " + politicscount);
-     println("The amount of articles about Financial Concerns is: " + moneycount);
-     println("The amount of articles about Crime is: " + crimecount);
-     println("The amount of articles about Science and Technology is: " + sciencecount);
-     println("The amount of articles about Health is: " + healthcount);
-     println("The amount of articles about Social Equality is: " + humanrightscount);
+    println("The amount of articles about the Military concerns is: " + militarycount);
+    println("The amount of articles from the Politics section is: " + politicscount);
+    println("The amount of articles about Financial Concerns is: " + moneycount);
+    println("The amount of articles about Crime is: " + crimecount);
+    println("The amount of articles about Science and Technology is: " + sciencecount);
+    println("The amount of articles about Health is: " + healthcount);
+    println("The amount of articles about Social Equality is: " + humanrightscount);
   }
   //catching JSON errors
   catch (JSONException e) {  
@@ -154,11 +154,12 @@ String [] getMPArticles(String mpapi, String resourceType, String mpsection, Str
   String g = (str(humanrightscount) + ":Human Rights");
   String h = (str(mourningcount) + ":Mourning");
   //a string array made of total:name for each section
-  String [] trends = {a, b, c, d, e, f, g, h};
+  String [] trends = {
+    a, b, c, d, e, f, g, h
+  };
   String [] rank = sort(trends);//sorts strings in alphabetical order and thus reverse number order
   println(rank);
   return rank;
 }
-
 
 
