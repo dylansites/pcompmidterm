@@ -32,7 +32,10 @@ void setup() {
   println(Serial.list());
   arduinoPort = new Serial(this, Serial.list()[0], 9600);
   if (arduinoPort.available() > 0) {
-    arduinoPort.clear();//clears arduino port initially to prepare for first value of a single 1 or 0
+    arduinoPort.clear();//clears arduino port initially
+    time = millis();
+    delay(time);
+    arduinoPort.clear();
   }
   size(500, 300);
 };
@@ -86,11 +89,11 @@ void newsWire(int a, int b) {
   println("Sending an X to Arduino");
   time = millis();
   delay(time);
-  if (version == 2){
+  if (version == 2) {
     arduinoPort.write('L'); //intial blinking
     println("Sending an L to Arduino");
   }
-  if (version == 1){
+  if (version == 1) {
     arduinoPort.write('G');
     println("Sending an G to Arduino");
   }
@@ -98,7 +101,6 @@ void newsWire(int a, int b) {
   delay(time);
   // if (offset == 0) {
   for (int t = 0; t < 4; t ++) {
-    println("Offset :" + offset);
     newAlert = getArticles(apiKey, source, section, timePeriod, offset);
 
 
@@ -114,25 +116,42 @@ void newsWire(int a, int b) {
     //adds number of hits from last pull down
     alert = newAlert;
 
+    println("Offset :" + offset);
+
+    int endByte; //new value to hold 0 that could break the function
+    if (arduinoPort.available() > 0) {
+      endByte = arduinoPort.read();  //checks to see if value from Arduino has changed
+      println("NW at middle:" + endByte); //prints out new value for debugging
+      if (endByte < a || endByte > b ) {
+        println("first break"); 
+        break;   //if value has changed to 0 i.e. the button is no longer pressed, this breaks loop and ends function
+      }
+    }
+
     //tells arduino if there's been a hit on the keyword or not
     if (alert > 0) {
-      arduinoPort.write('H');
-      println("Sending an H to Arduino");
+      if (version == 2) {
+        arduinoPort.write('H');
+        println("Sending an H to Arduino");
+      }
+      if (version == 1) {
+        arduinoPort.write('J');
+        println("Sending a J to Arduino");
+      }
     }
     else {
-      if(version == 2){
+      if (version == 2) {
         arduinoPort.write('L');
         println("Sending an L to Arduino");
       }
-      if(version == 1){
+      if (version == 1) {
         arduinoPort.write('G');
-        println("Sending an G to Arduino");
+        println("Sending a G to Arduino");
       }
     }
 
     println("Returns: " + alert);
 
-    int endByte; //new value to hold 0 that could break the function
 
     //modified delay that checks for a value from Arduino every 2 seconds
     //after 20 seconds, if Arduino is still sending 1 if keeps going
